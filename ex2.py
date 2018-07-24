@@ -130,9 +130,3 @@ if __name__ == '__main__':
     plt.show()
 
 
-    sel_pok = pokemon[
-        ((pokemon["Type 1"] == "Water") & (pokemon["Type 2"] == "Fire")) |
-        ((pokemon["Type 1"] == "Fire") & (pokemon["Type 2"] == "Water"))
-    ]
-
-    print(sel_pok)
