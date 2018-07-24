@@ -6,21 +6,22 @@ import numpy as np
 
 def is_square_matrix(matrix):
     sums = []
+
+    # Sum by col
     sums.append(np.sum(matrix, axis=0))
+    # Sum by row
     sums.append(np.sum(matrix, axis=1))
 
-    print(sums[0].shape)
-
+    # Sum by diagonal
     sums.append(np.array(np.trace(matrix)).reshape(-1,))
     sums.append(np.array(np.trace(matrix[::-1])).reshape(-1,))
 
-    print(sums[-1].shape)
-
     sums = np.concatenate(sums)
-    max = np.max(sums)
-    min = np.min(sums)
+    max_value = np.max(sums)
+    min_value = np.min(sums)
 
-    return max == min
+    return max_value == min_value
+
 
 if __name__ == '__main__':
     matrix = np.array(
