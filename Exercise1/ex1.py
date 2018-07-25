@@ -5,7 +5,7 @@ Sinh ngẫu nhiên một ma trận 100*100 giá trị các phần tử nằm tro
 import os
 import numpy as np
 import numpy.linalg as LA
-from ScientificPythonPackages import utils
+import utils
 
 
 if __name__ == '__main__':

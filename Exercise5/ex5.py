@@ -5,7 +5,7 @@ Sử dụng matplotlib.pyplot.plot vẽ các đồ thị hàm số f(x) = (e^(�
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-from ScientificPythonPackages import utils
+import utils
 
 
 def f_func(x):

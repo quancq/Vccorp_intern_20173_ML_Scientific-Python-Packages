@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import os
-from ScientificPythonPackages import utils
+import utils
 
 if __name__ == '__main__':
     input_path = "./Input/pokemon.csv"
@@ -18,12 +18,16 @@ if __name__ == '__main__':
     print(pokemon.columns)
     print(pokemon.info())
     print(pokemon.head())
-    print(pokemon[pokemon.Name.isnull()])
+    # print(pokemon[pokemon.Name.isnull()])
 
     selected_cols = ['#', 'Name', 'Type 1', 'Type 2', 'Speed', 'Attack']
+
+    # Find records satisfy condition
     selected_pokemons = pokemon[(pokemon.Speed > 80) & (pokemon.Attack > 52)][selected_cols]
 
-    print(selected_pokemons[selected_pokemons['Type 1'] == selected_pokemons['Type 2']])
+    print("=========== Result ===========")
+    print("Pokemons has Speed > 80 and Attack > 52 : ")
+    print(selected_pokemons)
 
     # Compute data to plot
     # Compute sum and size of attack and defense group by 'type 1' column
@@ -52,15 +56,12 @@ if __name__ == '__main__':
     by_type = by_type.reset_index()
     by_type = by_type.rename(columns={"Type 1": "Type"})
 
-    print(by_type)
-
     # Plot data
     fig, axes = plt.subplots(nrows=1, ncols=2, sharey=True)
 
     by_type.plot(x="Type", y=["Attack_Mean"], kind="barh", title="Average Attack", figsize=(12, 8), ax=axes[0], color="orange")
     by_type.plot(x="Type", y=["Defense_Mean"], kind="barh", title="Average Defense", figsize=(12, 8), ax=axes[1], color="b")
-    # axes[0][0].bar(by_type.Type, by_type.Attack_Mean)
-    # axes[0][0].bar(by_type.Type, by_type.Defense_Mean)
+
     axes[0].legend("")
     axes[1].legend("")
     plt.savefig(os.path.join(output_dir, "Average_Attack_Defense.jpg"), dpi=100)
@@ -68,7 +69,7 @@ if __name__ == '__main__':
     # Plot heat map to compare relation of each couple pokemon
     pokemon_type_list = by_type.Type.tolist()
     # pokemon_type_list.append("Untype")
-    print("List pokemon type : ", pokemon_type_list)
+    # print("List pokemon type : ", pokemon_type_list)
     num_pokemon_types = len(pokemon_type_list)
 
     map_type_index = {
@@ -79,7 +80,7 @@ if __name__ == '__main__':
 
     # Loop through each row in pokemon data
     print("========")
-    print(pokemon.head())
+    # print(pokemon.head())
     for idx in pokemon.index:
         type1 = pokemon.loc[idx]["Type 1"]
         type2 = pokemon.loc[idx]["Type 2"]
@@ -95,11 +96,11 @@ if __name__ == '__main__':
             heat_map[type1_idx, type2_idx] += 1
             heat_map[type2_idx, type1_idx] += 1
 
-        print("Type 1 : {}, Type 2 : {}".format(type1, type2))
+        # print("Type 1 : {}, Type 2 : {}".format(type1, type2))
         # break
 
-    print("Heat map : ")
-    print(heat_map)
+    # print("Heat map : ")
+    # print(heat_map)
 
     fig, ax = plt.subplots(figsize=(12, 8))
     im = ax.imshow(heat_map)

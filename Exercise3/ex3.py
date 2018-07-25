@@ -4,6 +4,7 @@ Một ma trận được gọi là "Matrix square" nếu đó là ma trận vuô
 
 import numpy as np
 
+
 def is_square_matrix(matrix):
     sums = []
 

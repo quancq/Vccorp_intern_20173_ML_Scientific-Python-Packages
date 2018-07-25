@@ -10,7 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.path import Path
 import matplotlib.patches as patches
-from ScientificPythonPackages import utils
+import utils
 import math
 from datetime import datetime
 
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     result_map = {}
 
     for animal in animals.index:
-        # fig, ax = plt.subplots()
+        fig, ax = plt.subplots()
 
         longs = animals.loc[animal]["Long"]
         min_long = np.min(longs)
@@ -69,6 +69,8 @@ if __name__ == '__main__':
         point1, point2 = utils.find_closet_pair(points)
         min_distance = utils.calc_euclidean_distance(point1, point2)
 
+        # ================================
+
         print("Min distance : ", min_distance)
         print("long1 : {}, latt1 = {}".format(point1.x, point1.y))
         print("long2 : {}, latt2 = {}".format(point2.x, point2.y))
@@ -77,8 +79,8 @@ if __name__ == '__main__':
 
         result_map.update({animal: (point1, point2)})
 
-        # codes = [Path.LINETO for _ in range(len(vertices))]
-        # codes[0] = Path.MOVETO
+        codes = [Path.LINETO for _ in range(len(vertices))]
+        codes[0] = Path.MOVETO
 
         print("Min Longitude : {}, Max Longitude : {}".format(min_long, max_long))
         print("Min Latitude : {}, Max Latitude : {}".format(min_latt, max_latt))
@@ -86,40 +88,40 @@ if __name__ == '__main__':
         print("Start position : ", vertices[0])
         print("Finish position : ", vertices[-1])
 
-        # path = Path(vertices, codes)
+        path = Path(vertices, codes)
 
-        # patch = patches.PathPatch(path, lw=2, facecolor=None)
-        # ax.add_patch(patch)
-        #
-        # ax.set_xlim(min_long, max_long)
-        # ax.set_ylim(min_latt, max_latt)
-        # ax.set_xlabel("Longitude")
-        # ax.set_ylabel("Latitude")
-        # ax.set_title("{}'s moves".format(animal))
+        patch = patches.PathPatch(path, lw=2, facecolor=None)
+        ax.add_patch(patch)
+
+        ax.set_xlim(min_long, max_long)
+        ax.set_ylim(min_latt, max_latt)
+        ax.set_xlabel("Longitude")
+        ax.set_ylabel("Latitude")
+        ax.set_title("{}'s moves".format(animal))
 
         # Mark start and finish position of animal on map
         # Start position
-        # ax.annotate("Start", xy=vertices[0],
-        #             xytext=(vertices[0][0], vertices[0][1] + 0.1),
-        #             color="r", arrowprops=dict(arrowstyle="->"))
+        ax.annotate("Start", xy=vertices[0],
+                    xytext=(vertices[0][0], vertices[0][1] + 0.1),
+                    color="r", arrowprops=dict(arrowstyle="->"))
 
         # Finish position
-        # ax.annotate("Finish", xy=vertices[-1],
-        #             xytext=(vertices[-1][0], vertices[-1][1] + 0.1),
-        #             color="r", arrowprops=dict(arrowstyle="->"))
+        ax.annotate("Finish", xy=vertices[-1],
+                    xytext=(vertices[-1][0], vertices[-1][1] + 0.1),
+                    color="r", arrowprops=dict(arrowstyle="->"))
 
         # Save figure
-        # save_path = os.path.join(output_dir, "{}.jpg".format(animal))
-        # plt.savefig(save_path, dpi=100)
+        save_path = os.path.join(output_dir, "{}.jpg".format(animal))
+        plt.savefig(save_path, dpi=100)
 
         # break
 
     # Print result
-    print("\n=========================")
+    print("\n=========== Result ===========")
     for animal, (point1, point2) in result_map.items():
         date1 = datetime.fromtimestamp(point1.timestamp).strftime('%d-%m-%Y %H:%M:%S')
         date2 = datetime.fromtimestamp(point2.timestamp).strftime('%d-%m-%Y %H:%M:%S')
         distance = utils.calc_euclidean_distance(point1, point2)
         print("Animal : {}, date1 : {}, date2 : {}, distance : {}".format(animal, date1, date2, distance))
 
-    # plt.show()
+    plt.show()
